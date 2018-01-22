@@ -5,8 +5,6 @@ __lua__
 -- by estelle rostan
 
 -- todo :
--- 1. draw bun on screen -- done
--- 2. four directions movements
 -- 3. draw level
 -- 4. collisions
 --    remove carrot if wlaked on
@@ -27,6 +25,22 @@ p_x = 64
 p_y =  64
 
 function _update() 
+	if(btnp(0)) then
+		p_x = p_x - 4
+		p_y = p_y
+ end
+	if(btnp(1)) then
+		p_x = p_x + 4
+		p_y = p_y
+ end
+ if(btnp(2)) then
+		p_x = p_x
+		p_y = p_y - 4
+ end
+ if(btnp(3)) then
+		p_x = p_x
+		p_y = p_y + 4
+ end
 end
 
 function _draw() 
