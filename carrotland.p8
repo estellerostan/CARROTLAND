@@ -24,7 +24,17 @@ __lua__
 p_x = 64
 p_y =  64
 
-c_y = {56, 48}
+carrots = {}
+
+c_1 = {
+	x = 64,
+	y = 56
+}
+
+c_2 = {
+	x = 64,
+	y = 48
+}
 
 function _update() 
 	if(btnp(0)) then
@@ -44,10 +54,10 @@ function _update()
 		p_y = p_y + 8
  end
  
- -- carrots y collisions
- for _c_y in all(c_y) do
-	 if(p_y == _c_y) then
-			del(c_y, _c_y)
+ -- carrots collisions
+ for c in all(carrots) do
+	 if(p_y == c.y) then
+			del(carrots, c)
 		end
 	end
 end
@@ -61,9 +71,14 @@ function _draw()
 		spr(5, 64, 64) 
 	end
 		-- carrots
-	for _c_y in all(c_y) do
-	 spr(2, 64, _c_y)
+	for c in all(carrots) do
+	 spr(2, c.x, c.y)
 	end
+end
+
+function _init()
+	add(carrots, c_1)
+	add(carrots, c_2)
 end
 __gfx__
 000000007000000700000b0b000009098880088800700000b0b0b0b0444433bb444433bb00000000444444440000000000000000000000000000000000000000
