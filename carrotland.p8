@@ -14,6 +14,7 @@ __lua__
 --     reset score 
 -- 8. win animation
 -- 9. start screen art
+-- 10. highscore board
 
 
 -- improvements:
@@ -27,6 +28,8 @@ function _update()
 	if(btnp(5)) then -- retry btn
 	 p_x = 64
 	 p_y = 64
+		
+		carrots = {}
 		
 		local start = 48
 		local pas = 18
@@ -129,6 +132,8 @@ function drawcarr(c_x, c_y, pas)
 		add(carrots, c)
 	end
 end
+
+
 __gfx__
 000000007000000700000b0b000009098880088800700000b00bb00b444433bb000433bb00000000000000005050505000000000000000080000000000000000
 00000000e700007e00000bb00000099080000008007700000bb00bb0446663b4004443b400000000001000110505050508008080080080870000000000000000
