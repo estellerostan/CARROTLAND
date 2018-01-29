@@ -6,11 +6,12 @@ __lua__
 
 -- todo :
 -- 5. score :
---    based on time
---    + number of carrots eaten
+--     based on time
+--     + number of carrots eaten
 -- 6. basic animations 
 --    music
--- 7. retry + cleanup game
+-- 7. retry :
+--     reset score 
 -- 8. win animation
 -- 9. start screen art
 
@@ -22,6 +23,24 @@ __lua__
 -- level creator
 
 function _update() 
+ -- reset game 
+	if(btnp(5)) then -- retry btn
+	 p_x = 64
+	 p_y = 64
+		
+		local start = 48
+		local pas = 18
+		drawcarr(64,start,pas-8)
+		drawcarr(56,start,pas-8)
+		drawcarr(48,start+8,pas*2+8)
+		drawcarr(40,80,pas)
+		drawcarr(32,start+8,pas*2+8)
+		drawcarr(24,start,pas-8)
+		drawcarr(24,72,pas+8)
+		drawcarr(16,start,pas)
+		drawcarr(8,start,pas)	 
+	end
+
  -- player movements :
  -- can only walk on carrots
 	if(btnp(0)) then
@@ -79,6 +98,9 @@ function _draw()
 	for c in all(carrots) do
 	 spr(2, c.x, c.y)
 	end
+	
+	print("stuck?", 22, 22,8)
+	print("press (—) to retry", 32, 28,2)
 end
 
 function _init()
