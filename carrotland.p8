@@ -31,17 +31,7 @@ function _update()
 		
 		carrots = {}
 		
-		local start = 48
-		local pas = 18
-		drawcarr(64,start,pas-8)
-		drawcarr(56,start,pas-8)
-		drawcarr(48,start+8,pas*2+8)
-		drawcarr(40,80,pas)
-		drawcarr(32,start+8,pas*2+8)
-		drawcarr(24,start,pas-8)
-		drawcarr(24,72,pas+8)
-		drawcarr(16,start,pas)
-		drawcarr(8,start,pas)	 
+	 drawlevel() 
 	end
 
  -- player movements :
@@ -93,15 +83,16 @@ function _draw()
  cls(3)
 	spr(1, p_x, p_y)
 	map(0, 0, 0, 32, 128, 32)
-	-- start point flag
-	if(p_x~=64 or p_y~=64) then
-		spr(5, 64, 64) 
+	--end point flag
+	if(p_x~=16 or p_y~=56) then
+		spr(5, 16, 56)
 	end
 		-- carrots
 	for c in all(carrots) do
 	 spr(2, c.x, c.y)
 	end
-	
+
+	-- instructions
 	print("stuck?", 22, 22,8)
 	print("press (—) to retry", 32, 28,2)
 end
@@ -113,6 +104,10 @@ function _init()
 	carrots = {}
 	
  -- init carrots positions
+	drawlevel()
+end
+
+function drawlevel() 
  local start = 48
  local pas = 18
  drawcarr(64,start,pas-8)
@@ -122,7 +117,8 @@ function _init()
  drawcarr(32,start+8,pas*2+8)
  drawcarr(24,start,pas-8)
  drawcarr(24,72,pas+8)
- drawcarr(16,start,pas)
+ drawcarr(16,start, 0)
+ drawcarr(16,64,0)
  drawcarr(8,start,pas)
 end
 
@@ -132,8 +128,6 @@ function drawcarr(c_x, c_y, pas)
 		add(carrots, c)
 	end
 end
-
-
 __gfx__
 000000007000000700000b0b000009098880088800700000b00bb00b444433bb000433bb00000000000000005050505000000000000000080000000000000000
 00000000e700007e00000bb00000099080000008007700000bb00bb0446663b4004443b400000000001000110505050508008080080080870000000000000000
