@@ -6,7 +6,7 @@ __lua__
 
 -- todo :
 -- 5. score :
---     based on time
+--     based on time : done
 --     + number of carrots eaten
 -- 6. basic animations 
 --    music
@@ -77,6 +77,8 @@ function _update()
 	  end
 		end
  end
+ 
+ update_timers()
 end
 
 function _draw() 
@@ -92,6 +94,14 @@ function _draw()
 	 spr(2, c.x, c.y)
 	end
 
+	-- score and time bar
+ rectfill(0, 0, 127, 10, 1)
+ print("score:", 4, 4, 7)
+ print(1000-last_int, 32, 4, 7)
+ print("time:", 80, 4, 7)
+ print(last_int, 104, 4, 7)
+ print("sec", 112, 4, 7)
+
 	-- instructions
 	print("stuck?", 22, 22,8)
 	print("press (—) to retry", 32, 28,2)
@@ -105,6 +115,21 @@ function _init()
 	
  -- init carrots positions
 	drawlevel()
+	
+	init_timers()
+ 
+ last_int = 0
+ 
+ add_timer(
+   "score_timer",
+   300,
+   function (dt,elapsed,length)
+     local i = flr(elapsed)
+     if i > last_int then
+       last_int = i
+     end
+   end
+ )
 end
 
 function drawlevel() 
@@ -127,6 +152,74 @@ function drawcarr(c_x, c_y, pas)
 		c = {x = c_x, y = i}
 		add(carrots, c)
 	end
+end
+
+-- creates and runs timers
+-- also supports pausing and resuming
+-- full info: http://www.lexaloffle.com/bbs/?tid=3202
+
+-- contributors: benwiley4000
+
+local timers = {}
+local last_time = nil
+
+function init_timers ()
+  last_time = time()
+end
+
+function add_timer (name,
+    length, step_fn, end_fn,
+    start_paused)
+  local timer = {
+    length=length,
+    elapsed=0,
+    active=not start_paused,
+    step_fn=step_fn,
+    end_fn=end_fn
+  }
+  timers[name] = timer
+  return timer
+end
+
+function update_timers ()
+  local t = time()
+  local dt = t - last_time
+  last_time = t
+  for name,timer in pairs(timers) do
+    if timer.active then
+      timer.elapsed += dt
+      local elapsed = timer.elapsed
+      local length = timer.length
+      if elapsed < length then
+        if timer.step_fn then
+          timer.step_fn(dt,elapsed,length,timer)
+        end  
+    else
+        timer.active = false
+        if timer.end_fn then
+          timer.end_fn(dt,elapsed,length,timer)
+        end
+      end
+    end
+  end
+end
+
+-- optional
+function pause_timer (name)
+  local timer = timers[name]
+  if (timer) timer.active = false
+end
+
+function resume_timer (name)
+  local timer = timers[name]
+  if (timer) timer.active = true
+end
+
+function restart_timer (name, start_paused)
+  local timer = timers[name]
+  if (not timer) return
+  timer.elapsed = 0
+  timer.active = not start_paused
 end
 __gfx__
 000000007000000700000b0b000009098880088800700000b00bb00b444433bb000433bb00000000000000005050505000000000000000080000000000000000
