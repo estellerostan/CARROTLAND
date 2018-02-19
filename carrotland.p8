@@ -36,48 +36,47 @@ function _update()
 
  -- player movements :
  -- can only walk on carrots 
- 	if(btnp(0)) then
-		 for c in all(carrots) do
-		  if(p_x-8==c.x and p_y==c.y) then 
-		  	p_x = p_x - 8
-			  p_y = p_y 
-			  del(carrots, c)
-			  break
-		  end
-		 end
+	if(btnp(0)) then
+	 for c in all(carrots) do
+	  if(p_x-8==c.x and p_y==c.y) then 
+	  	p_x = p_x - 8
+		  p_y = p_y 
+		  del(carrots, c)
+		  break
+	  end
 	 end
- 
-		if(btnp(1)) then
-		 for c in all(carrots) do
-		  if(p_x+8==c.x and p_y==c.y) then 
-			  p_x = p_x + 8
-			  p_y = p_y
-			  del(carrots, c)
-			  break
-		  end
-		 end
+ end
+
+	if(btnp(1)) then
+	 for c in all(carrots) do
+	  if(p_x+8==c.x and p_y==c.y) then 
+		  p_x = p_x + 8
+		  p_y = p_y
+		  del(carrots, c)
+		  break
+	  end
 	 end
-	 if(btnp(2)) then
-	 		for c in all(carrots) do
-			  if(p_x==c.x and p_y-8==c.y) then 
-						p_x = p_x
-						p_y = p_y - 8
-						del(carrots, c)
-				  break
-			  end
-			 end
-	 end
-	 if(btnp(3)) then
-	  for c in all(carrots) do
-		  if(p_x==c.x and p_y+8==c.y) then 
+ end
+ if(btnp(2)) then
+ 		for c in all(carrots) do
+		  if(p_x==c.x and p_y-8==c.y) then 
 					p_x = p_x
-					p_y = p_y + 8
+					p_y = p_y - 8
 					del(carrots, c)
 			  break
 		  end
-			end
-	 end
+		 end
  end
+ if(btnp(3)) then
+  for c in all(carrots) do
+	  if(p_x==c.x and p_y+8==c.y) then 
+				p_x = p_x
+				p_y = p_y + 8
+				del(carrots, c)
+		  break
+	  end
+		end
+ end 
  
  update_timers()
 end
@@ -97,21 +96,30 @@ function _draw()
 
 	-- score and time bar
  rectfill(0, 0, 127, 10, 1)
- print("score:", 4, 4, 7)
  if (last_int < 300) then
  	if (#carrots != 0) then
+ 	 print("stuck?", 22, 22,8)
+ 	 print("score:", 4, 4, 7)
  	 print(300-last_int, 32, 4, 7)
- 	else print(win, 32, 4, 11) 
- 	pause_timer(timername)
+ 	 print("time:", 72, 4, 7)
+   print(last_int, 104, 4, 7)
+   print("sec", 112, 4, 7)
+ 	else
+ 	 pause_timer(timername)
+ 	 
+ 	 print("score:", 4, 4, 11)
+ 	 print(300-last_int, 32, 4, 11) 
+ 	 print("time:", 72, 4, 11)
+   print(last_int, 104, 4, 11)
+   print("sec", 112, 4, 11)
+   
+   rectfill(0, 20, 127, 10, 1)
+   print(win, 10, 10, 11) 
  	end
  else print (done, 32, 4, 8)
  end
- print("time:", 72, 4, 7)
- print(last_int, 104, 4, 7)
- print("sec", 112, 4, 7)
-
+ 
 	-- instructions
-	print("stuck?", 22, 22,8)
 	print("press (—) to retry", 32, 28,2)
 end
 
