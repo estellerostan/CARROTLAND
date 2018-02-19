@@ -35,48 +35,82 @@ function _update()
 	end
 
  -- player movements :
- -- can only walk on carrots 
-	if(btnp(0)) then
-	 for c in all(carrots) do
-	  if(p_x-8==c.x and p_y==c.y) then 
-	  	p_x = p_x - 8
-		  p_y = p_y 
-		  del(carrots, c)
-		  break
-	  end
+ -- can only walk
+ -- if there is time left,
+ -- on carrots 
+ -- or on flag if player won.
+ if (last_int < 300) then
+		if(btnp(0)) then
+		 if (#carrots != 0) then
+			 for c in all(carrots) do
+			  if(p_x-8==c.x and p_y==c.y) then 
+			  	p_x = p_x - 8
+				  p_y = p_y 
+				  del(carrots, c)
+				  break
+			  end
+			 end
+		 else 
+			 if (p_x > flag_x) then
+			  p_x = p_x - 8
+				 p_y = p_y
+			 end
+			end	  
+		end 
+	
+		if(btnp(1)) then
+		 if (#carrots != 0) then
+			 for c in all(carrots) do
+			  if(p_x+8==c.x and p_y==c.y) then 
+				  p_x = p_x + 8
+				  p_y = p_y
+				  del(carrots, c)
+				  break
+			  end
+			 end
+			else 
+			 if (p_x < flag_x) then
+			  p_x = p_x + 8
+				  p_y = p_y
+			 end
+			end
 	 end
- end
-
-	if(btnp(1)) then
-	 for c in all(carrots) do
-	  if(p_x+8==c.x and p_y==c.y) then 
-		  p_x = p_x + 8
-		  p_y = p_y
-		  del(carrots, c)
-		  break
-	  end
+	 if(btnp(2)) then
+	  if (#carrots != 0) then
+	 		for c in all(carrots) do
+			  if(p_x==c.x and p_y-8==c.y) then 
+						p_x = p_x
+						p_y = p_y - 8
+						del(carrots, c)
+				  break
+			  end
+			 end
+			else 
+			 if (p_y > flag_y) then
+			  p_x = p_x
+				 p_y = p_y - 8
+			 end
+			end
 	 end
- end
- if(btnp(2)) then
- 		for c in all(carrots) do
-		  if(p_x==c.x and p_y-8==c.y) then 
-					p_x = p_x
-					p_y = p_y - 8
-					del(carrots, c)
-			  break
-		  end
-		 end
- end
- if(btnp(3)) then
-  for c in all(carrots) do
-	  if(p_x==c.x and p_y+8==c.y) then 
-				p_x = p_x
-				p_y = p_y + 8
-				del(carrots, c)
-		  break
-	  end
-		end
- end 
+	 if(btnp(3)) then
+	  if (#carrots != 0) then
+		  for c in all(carrots) do
+			  if(p_x==c.x and p_y+8==c.y) then 
+						p_x = p_x
+						p_y = p_y + 8
+						del(carrots, c)
+				  break
+			  end
+				end
+			else 
+			 if (p_y < flag_y) then
+			  p_x = p_x
+					p_y = p_y + 8
+			 end
+			end
+	 end 
+	 
+	end 
  
  update_timers()
 end
@@ -86,8 +120,9 @@ function _draw()
 	spr(1, p_x, p_y)
 	map(0, 0, 0, 32, 128, 32)
 	--end point flag
-	if(p_x~=16 or p_y~=56) then
-		spr(5, 16, 56)
+	if(p_x~=flag_x
+	  or p_y~=flag_y) then
+		spr(5, flag_x, flag_y)
 	end
 		-- carrots
 	for c in all(carrots) do
@@ -114,7 +149,7 @@ function _draw()
    print("sec", 112, 4, 11)
    
    rectfill(0, 20, 127, 10, 1)
-   print(win, 10, 10, 11) 
+   print(win, 14, 14, 11) 
  	end
  else print (done, 32, 4, 8)
  end
@@ -126,6 +161,9 @@ end
 function _init()
 	p_x = 64
 	p_y =  64
+	
+	flag_x = 16
+	flag_y = 56
 
 	carrots = {}
 	
